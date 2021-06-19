@@ -5,7 +5,7 @@ module.exports = () => {
   const remoteURI =
     "mongodb+srv://admin:PeCcM2YVDxjxBiWA@cluster0.zgay3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
   mongoose
-    .connect(localURI, { useUnifiedTopology: true, useNewUrlParser: true })
+    .connect(remoteURI, { useUnifiedTopology: true, useNewUrlParser: true })
     .then((connectstatus) => {
       console.log("Mongodb  connected");
     })
