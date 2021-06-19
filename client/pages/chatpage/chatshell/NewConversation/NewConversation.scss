@@ -1,0 +1,45 @@
+$primary-color: #0048aa;
+$accent-color: #eee;
+
+$contrasted-primary-text: #fff; // contrast-color($primary-color, lighten($accent-color, 10), darken($accent-color, 10));
+$contrasted-accent-text: #111; // contrast-color($accent-color, lighten($primary-color, 10), darken($primary-color, 10));
+
+$primary-dark: darken($primary-color, 8%);
+$contrasting-primary-text-color: black; // choose-contrast-color($primary-color);
+$contrasting-accent-text-color: white; // choose-contrast-color($accent-color);
+
+$shadow-box-color: #000000bf;
+$search-background-image-color: #ffffff4d;
+$light-grey-border: #ddd;
+$accent-text-color: darken($accent-color, 86.67);
+
+$sky-blue: #57c1eb;
+$sky-dark-blue: #246fa8;
+
+$container-top-border: darken($primary-color, 27.84);
+
+// scss part
+#new-message-container {
+    display: grid;
+    grid: 40px / 40px;
+    align-content: center;
+    grid-area: new-message-container;
+    background: $primary-color;
+    border-top: 1px solid $container-top-border;
+    padding: 0 15px;
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: $accent-color;
+        border-radius: 100%;
+        color: $primary-dark;
+        text-decoration: none;
+        font-size: 3.6rem;
+        line-height: 3.6rem;
+        outline: none;
+        border: none;
+        cursor: pointer;
+    }
+}

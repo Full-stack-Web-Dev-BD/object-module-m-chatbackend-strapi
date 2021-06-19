@@ -1,0 +1,35 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p $PORT"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
+    "axios": "^0.21.1",
+    "classnames": "^2.3.1",
+    "dotenv": "^10.0.0",
+    "fs": "^0.0.1-security",
+    "jwt-decode": "^3.1.2",
+    "moment": "^2.29.1",
+    "next": "10.2.3",
+    "next-images": "^1.7.0",
+    "next-redux-wrapper": "^7.0.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-dotenv": "^0.1.3",
+    "redux-logger": "^3.0.6",
+    "sass": "^1.34.1",
+    "socket.io-client": "^4.1.2"
+  },
+  "proxy": "http://localhost:1337",
+  "devDependencies": {
+    "autoprefixer": "^10.2.6",
+    "install": "^0.13.0",
+    "npm": "^7.17.0"
+  }
+}

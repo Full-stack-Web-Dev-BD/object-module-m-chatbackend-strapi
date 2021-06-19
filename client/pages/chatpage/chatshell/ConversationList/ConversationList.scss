@@ -1,0 +1,34 @@
+$primary-color: #0048aa;
+$accent-color: #eee;
+
+$contrasted-primary-text: #fff; // contrast-color($primary-color, lighten($accent-color, 10), darken($accent-color, 10));
+$contrasted-accent-text: #111; // contrast-color($accent-color, lighten($primary-color, 10), darken($primary-color, 10));
+
+$primary-dark: darken($primary-color, 8%);
+$contrasting-primary-text-color: black; // choose-contrast-color($primary-color);
+$contrasting-accent-text-color: white; // choose-contrast-color($accent-color);
+
+$shadow-box-color: #000000bf;
+$search-background-image-color: #ffffff4d;
+$light-grey-border: #ddd;
+$accent-text-color: darken($accent-color, 86.67);
+
+$sky-blue: #57c1eb;
+$sky-dark-blue: #246fa8;
+// scss part
+#conversation-list {
+    grid-area: conversation-list;
+    background: $primary-color;
+    overflow-y: scroll;
+}
+
+.active-status {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: yellow;
+    border-radius: 100%;
+    bottom: 5px;
+    right: 1px;
+    border: 2px solid white;
+}
