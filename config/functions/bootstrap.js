@@ -5,10 +5,7 @@ module.exports = () => {
   const remoteURI =
     "mongodb+srv://admin:PeCcM2YVDxjxBiWA@cluster0.zgay3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
   mongoose
-    .connect(
-      "mongodb+srv://admin:PeCcM2YVDxjxBiWA@cluster0.zgay3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-      { useUnifiedTopology: true, useNewUrlParser: true }
-    )
+    .connect(localURI, { useUnifiedTopology: true, useNewUrlParser: true })
     .then((connectstatus) => {
       console.log("Mongodb  connected");
     })
@@ -71,10 +68,14 @@ module.exports = () => {
             .save()
             .then((resp) => {
               console.log("user updated with new socket ID ");
-              messageModel.find().then((allmessage) => {
-                socket.emit("connected", {
-                  user: "bot",
-                  messages: allmessage,
+              socketUserModel.find().then((sockets) => {
+                console.log(sockets);
+                messageModel.find().then((allmessage) => {
+                  socket.emit("connected", {
+                    sockets: sockets,
+                    user: "bot",
+                    messages: allmessage,
+                  });
                 });
               });
             })
@@ -89,10 +90,14 @@ module.exports = () => {
             .save()
             .then((resp) => {
               console.log("created new socket user ");
-              messageModel.find().then((allMessage) => {
-                socket.emit("connected", {
-                  user: "bot",
-                  messages: allMessage,
+              socketUserModel.find().then((sockets) => {
+                console.log(sockets);
+                messageModel.find().then((allmessage) => {
+                  socket.emit("connected", {
+                    sockets: sockets,
+                    user: "bot",
+                    messages: allmessage,
+                  });
                 });
               });
             })
