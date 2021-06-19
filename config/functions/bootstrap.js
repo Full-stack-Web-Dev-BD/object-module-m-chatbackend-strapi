@@ -43,7 +43,7 @@ module.exports = () => {
     },
     time: {
       type: Date,
-      require: new Date(),
+      default: new Date(),
     },
   });
   const socketUserModel = mongoose.model("socketUserModel", socketusersSchema);
