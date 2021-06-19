@@ -1,5 +1,3 @@
-// ================================Remote  connection================================
-
 module.exports = ({ env }) => ({
   defaultConnection: "default",
   connections: {
@@ -9,7 +7,7 @@ module.exports = ({ env }) => ({
         host: env("DATABASE_HOST", "cluster0.zgay3.mongodb.net"),
         srv: env.bool("DATABASE_SRV", true),
         port: env.int("DATABASE_PORT", 27017),
-        database: env("DATABASE_NAME", "myFirstDatabase"),
+        database: env("DATABASE_NAME", "objectdatabase"),
         username: env("DATABASE_USERNAME", "admin"),
         password: env("DATABASE_PASSWORD", "PeCcM2YVDxjxBiWA"),
       },
@@ -21,8 +19,6 @@ module.exports = ({ env }) => ({
   },
 });
 
-// ================================local connection================================
-
 // module.exports = ({ env }) => ({
 //   defaultConnection: "default",
 //   connections: {
@@ -32,7 +28,7 @@ module.exports = ({ env }) => ({
 //         host: env("DATABASE_HOST", "127.0.0.1"),
 //         srv: env.bool("DATABASE_SRV", false),
 //         port: env.int("DATABASE_PORT", 27017),
-//         database: env("DATABASE_NAME", "mongotest"),
+//         database: env("DATABASE_NAME", "objectdatabase"),
 //         username: env("DATABASE_USERNAME", null),
 //         password: env("DATABASE_PASSWORD", null),
 //       },
@@ -46,7 +42,7 @@ module.exports = ({ env }) => ({
 
 // ====================remote connection================
 // PeCcM2YVDxjxBiWA
-// mongodb+srv://admin:PeCcM2YVDxjxBiWA@cluster0.zgay3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+// mongodb+srv://admin:PeCcM2YVDxjxBiWA@cluster0.zgay3.mongodb.net/objectdatabase?retryWrites=true&w=majority
 // module.exports = ({ env }) => ({
 //   defaultConnection: "default",
 //   connections: {
@@ -56,7 +52,7 @@ module.exports = ({ env }) => ({
 //         host: env("DATABASE_HOST", "cluster0.zgay3.mongodb.net"),
 //         srv: env.bool("DATABASE_SRV", true),
 //         port: env.int("DATABASE_PORT", 27017),
-//         database: env("DATABASE_NAME", "myFirstDatabase"),
+//         database: env("DATABASE_NAME", "objectdatabase"),
 //         username: env("DATABASE_USERNAME", "admin"),
 //         password: env("DATABASE_PASSWORD", "PeCcM2YVDxjxBiWA"),
 //       },

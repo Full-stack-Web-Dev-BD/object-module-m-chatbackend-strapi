@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 module.exports = () => {
   const localURI = "mongodb://localhost/mongotest";
   const remoteURI =
-    "mongodb+srv://admin:PeCcM2YVDxjxBiWA@cluster0.zgay3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    "mongodb+srv://admin:PeCcM2YVDxjxBiWA@cluster0.zgay3.mongodb.net/objectdatabase?retryWrites=true&w=majority";
   mongoose
     .connect(remoteURI, { useUnifiedTopology: true, useNewUrlParser: true })
     .then((connectstatus) => {
