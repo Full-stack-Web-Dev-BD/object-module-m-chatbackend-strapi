@@ -1,55 +1,5 @@
 "use strict";
-const mongoose = require("mongoose");
 module.exports = () => {
-  const localURI = "mongodb://localhost/objectdatabase";
-  const remoteURI =
-    "mongodb+srv://admin:PeCcM2YVDxjxBiWA@cluster0.zgay3.mongodb.net/objectdatabase?retryWrites=true&w=majority";
-  mongoose
-    .connect(localURI, { useUnifiedTopology: true, useNewUrlParser: true })
-    .then((connectstatus) => {
-      console.log("Mongodb  connected");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  const Schema = mongoose.Schema;
-  const socketusersSchema = new Schema({
-    userid: {
-      type: String,
-      require: true,
-    },
-    socketid: {
-      type: String,
-      require: true,
-    },
-  });
-
-  const messageSchema = new Schema({
-    body: {
-      type: String,
-      require: true,
-    },
-    senderid: {
-      type: String,
-      require: true,
-    },
-    receipientid: {
-      type: String,
-      require: true,
-    },
-    conversationid: {
-      type: String,
-      require: true,
-    },
-    time: {
-      type: Date,
-      default: new Date(),
-    },
-  });
-  const socketUserModel = mongoose.model("socketUserModel", socketusersSchema);
-  const messageModel = mongoose.model("messageModel", messageSchema);
-
-  //  socket initialize
   var io = require("socket.io")(strapi.server, {
     cors: {
       origin: "*",
@@ -94,7 +44,7 @@ module.exports = () => {
       try {
         const { body, senderid, receipientid, conversationid } = data.message;
         console.log(data.message);
-        let crMessage = await strapi.services.message.create({
+        await strapi.services.message.create({
           body,
           senderid,
           receipientid,
