@@ -43,18 +43,15 @@ module.exports = () => {
     socket.on("sendMessage", async (data, callback) => {
       try {
         const { body, senderid, receipientid, conversationid } = data.message;
-        console.log(data.message);
         await strapi.services.message.create({
           body,
           senderid,
           receipientid,
           conversationid,
         });
-
         let findToUser = await strapi.services.socket.findOne({
           userid: receipientid,
         });
-        console.log("finded user", findToUser);
         if (findToUser) {
           socket.broadcast
             .to(findToUser.socketid)
@@ -64,6 +61,17 @@ module.exports = () => {
         }
       } catch (err) {
         console.log("err inside catch block", err);
+      }
+    });
+    // typing status send
+    socket.on("typing", async (data) => {
+      let findToUser = await strapi.services.socket.findOne({
+        userid: data.receipientid,
+      });
+      if (findToUser) {
+        socket.broadcast.to(findToUser.socketid).emit("partnerTyping", data);
+      } else {
+        console.log("User is offline ");
       }
     });
     // while  user  disconnected
