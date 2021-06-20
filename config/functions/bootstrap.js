@@ -1,11 +1,11 @@
 "use strict";
 const mongoose = require("mongoose");
 module.exports = () => {
-  const localURI = "mongodb://localhost/mongotest";
+  const localURI = "mongodb://localhost/objectdatabase";
   const remoteURI =
     "mongodb+srv://admin:PeCcM2YVDxjxBiWA@cluster0.zgay3.mongodb.net/objectdatabase?retryWrites=true&w=majority";
   mongoose
-    .connect(remoteURI, { useUnifiedTopology: true, useNewUrlParser: true })
+    .connect(localURI, { useUnifiedTopology: true, useNewUrlParser: true })
     .then((connectstatus) => {
       console.log("Mongodb  connected");
     })
@@ -58,108 +58,75 @@ module.exports = () => {
       credentials: true,
     },
   });
-  // connect socket socket
   io.on("connection", function (socket) {
     socket.on("join", async ({ ID }, callback) => {
-      socketUserModel.find({ userid: ID }).then((users) => {
-        if (users.length > 0) {
-          users[0].socketid = socket.id;
-          users[0]
-            .save()
-            .then((resp) => {
-              console.log("user updated with new socket ID ");
-              socketUserModel.find().then((sockets) => {
-                console.log(sockets);
-                messageModel.find().then((allmessage) => {
-                  socket.emit("connected", {
-                    sockets: sockets,
-                    user: "bot",
-                    messages: allmessage,
-                  });
-                });
-              });
-            })
-            .catch((err) => {
-              console.log("error");
-            });
-        } else {
-          new socketUserModel({
-            userid: ID,
-            socketid: socket.id,
-          })
-            .save()
-            .then((resp) => {
-              console.log("created new socket user ");
-              socketUserModel.find().then((sockets) => {
-                console.log(sockets);
-                messageModel.find().then((allmessage) => {
-                  socket.emit("connected", {
-                    sockets: sockets,
-                    user: "bot",
-                    messages: allmessage,
-                  });
-                });
-              });
-            })
-            .catch((err) => {
-              console.log("error");
-            });
-        }
+      let existingSocketUser = await strapi.services.socket.find({
+        userid: ID,
       });
+      if (existingSocketUser.length > 0) {
+        await strapi.services.socket.update(
+          { userid: ID },
+          { userid: ID, socketid: socket.id }
+        );
+        let allSocketUsers = await strapi.services.socket.find();
+        let allmessage = await strapi.services.message.find();
+        socket.emit("connected", {
+          sockets: allSocketUsers,
+          user: "bot",
+          messages: allmessage,
+        });
+      } else {
+        await strapi.services.socket.create({
+          userid: ID,
+          socketid: socket.id,
+        });
+        let allSocketUsers = await strapi.services.socket.find();
+        let allmessage = await strapi.services.message.find();
+        socket.emit("connected", {
+          sockets: allSocketUsers,
+          user: "bot",
+          messages: allmessage,
+        });
+      }
     });
     // Receive  Message
     socket.on("sendMessage", async (data, callback) => {
-      console.log(data);
       try {
-        const { body, senderid, receipientid, conversationid, time } =
-          data.message;
-        // Save the message  in database
-        new messageModel({
+        const { body, senderid, receipientid, conversationid } = data.message;
+        console.log(data.message);
+        let crMessage = await strapi.services.message.create({
           body,
           senderid,
           receipientid,
           conversationid,
-        })
-          .save()
-          .then((savedMessage) => {
-            console.log("message saved");
-          })
-          .catch((err) => {
-            console.log("error while  message saving");
-          });
-        socketUserModel.findOne({ userid: receipientid }, (err, activeUser) => {
-          if (err) {
-            console.log(err);
-          } else {
-            if (activeUser) {
-              socket.broadcast
-                .to(activeUser.socketid)
-                .emit("receivemessage", { data: data.message });
-              console.log("sms emited success");
-            } else {
-              console.log("user is off line", activeUser);
-            }
-          }
         });
+
+        let findToUser = await strapi.services.socket.findOne({
+          userid: receipientid,
+        });
+        console.log("finded user", findToUser);
+        if (findToUser) {
+          socket.broadcast
+            .to(findToUser.socketid)
+            .emit("receivemessage", { data: data.message });
+        } else {
+          console.log("User is offline ");
+        }
       } catch (err) {
-        console.log("err inside catch block");
+        console.log("err inside catch block", err);
       }
     });
     // while  user  disconnected
     socket.on("disconnect", async (data) => {
       try {
-        console.log("DISCONNECTED!!!!!!!!!!!!", socket.id);
-        socketUserModel.findOneAndDelete(
-          { socketid: socket.id },
-          {},
-          (err, doc) => {
-            if (err) {
-              console.log("mongo err");
-            } else {
-              console.log("deleted user ");
-            }
-          }
-        );
+        var deletedSocketUser = await strapi.services.socket.delete({
+          socketid: socket.id,
+        });
+        if (deletedSocketUser) {
+          console.log(" User Disconnected  and deleted ");
+        } else {
+          console.log(" Disconnected user not  able to delete  ");
+        }
       } catch (err) {
         console.log("error while disconnecting");
       }

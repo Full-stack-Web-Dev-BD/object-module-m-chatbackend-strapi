@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "messages",
+  "info": {
+    "name": "message",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "body": {
+      "type": "text",
+      "required": true
+    },
+    "receipientid": {
+      "type": "text",
+      "required": true
+    },
+    "senderid": {
+      "type": "text",
+      "required": true
+    },
+    "conversationid": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

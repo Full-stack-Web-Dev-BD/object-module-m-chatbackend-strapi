@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sockets",
+  "info": {
+    "name": "socket"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "userid": {
+      "type": "string"
+    },
+    "socketid": {
+      "type": "string"
+    }
+  }
+}
